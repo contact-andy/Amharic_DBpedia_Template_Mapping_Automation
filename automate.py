@@ -32,4 +32,28 @@ def fetch_template_from_mediawiki(template_name="Infobox company"):
         return None
 
 
+def extract_template_info(template_name):
+    """
+    Extract template name and its attributes from Wikipedia wikitext.
+    Returns a dict in JSON-friendly format.
+    """
+    wikitext = fetch_template_from_mediawiki(template_name)
+    if not wikitext:
+        return {"error": "Template not found or empty content"}
+
+    # Extract attribute names (parameters start with |)
+    attributes = re.findall(r'\|\s*([\w\-]+)\s*=', wikitext)
+
+    # Remove duplicates while preserving order
+    seen = set()
+    attributes = [x for x in attributes if not (x in seen or seen.add(x))]
+
+    result = {
+        "template_name": template_name,
+        "attributes": attributes
+    }
+
+    return result
+
+
 
