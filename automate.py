@@ -57,3 +57,6 @@ def extract_template_info(template_name):
 
 
 
+# Example usage
+template_data = extract_template_info("Infobox company")
+print(json.dumps(template_data, ensure_ascii=False, indent=2))
